@@ -1,23 +1,33 @@
 package com.youtube.jwt.entity;
 
 public class JwtRequest {
-
-    private String userName;
+	private String email;
     private String userPassword;
 
-    public String getUserName() {
-        return userName;
-    }
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	/**
+	 * @return the userPassword
+	 */
+	public String getUserPassword() {
+		return userPassword;
+	}
+	/**
+	 * @param userPassword the userPassword to set
+	 */
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+ 
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
 }

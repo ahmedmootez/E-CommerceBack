@@ -32,15 +32,27 @@ public class JwtService implements UserDetailsService {
     private AuthenticationManager authenticationManager;
 
     public JwtResponse createJwtToken(JwtRequest jwtRequest) throws Exception {
-        String userName = jwtRequest.getUserName();
-        String userPassword = jwtRequest.getUserPassword();
-        authenticate(userName, userPassword);
+    String email = jwtRequest.getEmail();
+    String userPassword = jwtRequest.getUserPassword();
+       
+       authenticate(email, userPassword);
+       
+     
+     
+        UserDetails userDetails = loadUserByUsername(email);
 
-        UserDetails userDetails = loadUserByUsername(userName);
         String newGeneratedToken = jwtUtil.generateToken(userDetails);
-
-        User user = userDao.findById(userName).get();
-        return new JwtResponse(user, newGeneratedToken);
+       
+       
+        User user = userDao.findById(email).get();
+        
+        if(user.getEnabled()) {
+        	return new JwtResponse(user, newGeneratedToken);
+        }else {
+        	return new JwtResponse(user, "not verified");
+        }
+        
+        
     }
 
     @Override
@@ -49,7 +61,7 @@ public class JwtService implements UserDetailsService {
 
         if (user != null) {
             return new org.springframework.security.core.userdetails.User(
-                    user.getUserName(),
+                    user.getEmail(),
                     user.getUserPassword(),
                     getAuthority(user)
             );
@@ -68,11 +80,16 @@ public class JwtService implements UserDetailsService {
 
     private void authenticate(String userName, String userPassword) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, userPassword));
+        	          
+        	authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, userPassword));
+        	 
         } catch (DisabledException e) {
+        	 System.out.println("desableddd");
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
+        	 System.out.println("invaliiiide");
             throw new Exception("INVALID_CREDENTIALS", e);
+           
         }
     }
 }

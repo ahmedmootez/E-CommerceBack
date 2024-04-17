@@ -4,13 +4,16 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class User {
+public class User  {
 
     @Id
-    private String userName;
-    private String userFirstName;
-    private String userLastName;
+    private String email;
+	private String userName;
+    private String firstName;
+    private String lastName;
+    
     private String userPassword;
+    
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "USER_ROLE",
             joinColumns = {
@@ -21,44 +24,201 @@ public class User {
             }
     )
     private Set<Role> role;
+    private Boolean locked = false;
+    private Boolean enabled = false;
 
-    public String getUserName() {
-        return userName;
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+
+
+
+	/**
+	 * @return the userPassword
+	 */
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+
+
+
+	/**
+	 * @param userPassword the userPassword to set
+	 */
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
+
+
+
+
+
+
+	public User() {
+		super();
+	}
+
+
+
+
+
+
+
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+
+
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+
+
+
+
+
+
+	/**
+	 * @return the role
+	 */
+	public Set<Role> getRole() {
+		return role;
+	}
+
+
+
+
+	/**
+	 * @param role the role to set
+	 */
+	public void setRole(Set<Role> role) {
+		this.role = role;
+	}
+
+
+
+
+	/**
+	 * @return the locked
+	 */
+	public Boolean getLocked() {
+		return locked;
+	}
+
+
+
+
+	/**
+	 * @param locked the locked to set
+	 */
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
+	}
+
+
+
+
+	/**
+	 * @return the enabled
+	 */
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+
+
+
+	/**
+	 * @param enabled the enabled to set
+	 */
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+
+
+
+	/**
+	 * @param firstName the firstName to set
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+
+
+	/**
+	 * @param lastName the lastName to set
+	 */
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+
+
+
+	public User(String firstName,
+                   String lastName,
+                   String email,
+                   String password,String username
+                   ) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userPassword = password;
+        this.userName=username;
+        
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+ 
+
+
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getUserFirstName() {
-        return userFirstName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUserFirstName(String userFirstName) {
-        this.userFirstName = userFirstName;
+    
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public String getUserLastName() {
-        return userLastName;
+    
+    public boolean isAccountNonLocked() {
+        return !locked;
     }
 
-    public void setUserLastName(String userLastName) {
-        this.userLastName = userLastName;
+    
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public Set<Role> getRole() {
-        return role;
-    }
-
-    public void setRole(Set<Role> role) {
-        this.role = role;
+    
+    public boolean isEnabled() {
+        return enabled;
     }
 }
+
